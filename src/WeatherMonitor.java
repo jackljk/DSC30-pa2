@@ -4,21 +4,22 @@
  */
 
 /**
- * TODO
- * @author TODO
- * @since  TODO
+ * Weather Monitor implementation
+ * @author Jack Kai Lim
+ * @since  04/06/2022
  */
 
 public class WeatherMonitor {
     private IntStack monitor;
     private int counter;
     public WeatherMonitor() {
-        /* TODO */
+        /* Initializing Weather Monitor as a stack */
         this.monitor = new IntStack(9);
     }
     
     public int numDays(int temp) {
-       /* TODO */
+       /* Check if the temperature on the previous day is less than today. If so increase
+       counter, else reset to 0 and returns the number of days that this occurs. */
         if (this.monitor.size() == 0){
             this.monitor.push(temp);
             return 0;
