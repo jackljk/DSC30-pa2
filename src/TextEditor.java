@@ -34,16 +34,29 @@ public class TextEditor {
         this.insertedText = new StringStack(20);
     }
 
+    /**
+     * Getter Method
+     * @return The text stored at the instance
+     */
     public String getText() {
         /* Returns the text at it's current state. */
         return this.text;
     }
 
+    /**
+     * Getter Method
+     * @return The length of the text at the instance
+     */
     public int length() {
-        /* Returns the length of the text at it's current state. */
+        /* Returns the length of the text at its current state. */
         return this.text.length();
     }
 
+    /**
+     * Function Method
+     * @param i The start char
+     * @param j The end char exclusive
+     */
     public void caseConvert(int i, int j) {
         /* Iterates through the string and checks if it is an upper or lower case character, and
         switches the casing depending on what case it is. */
@@ -97,6 +110,11 @@ public class TextEditor {
         this.text = final_text.toString();
     }
 
+    /**
+     * Inserts a string at the given i
+     * @param i Start of where to input the string
+     * @param input The string that wants to be inputted.
+     */
     public void insert(int i, String input) {
         /* Insert a string into the position specified by the integer. */
         StringBuilder final_text = new StringBuilder();
@@ -155,6 +173,11 @@ public class TextEditor {
         }
     }
 
+    /**
+     * Deletes the char from i to j exclusive of j
+     * @param i start of where to delete
+     * @param j end of where to delete exclusively
+     */
     public void delete(int i, int j) {
         /* Deletes a part of the string based of the 2 integers provided */
         StringBuilder final_text = new StringBuilder();
@@ -195,6 +218,10 @@ public class TextEditor {
         this.text = final_text.toString();
     }
 
+    /**
+     * Undo the previous move
+     * @return true if there is a move  to undo false otherwise
+     */
     public boolean undo() {
         /* TODO */
         if (undo.size() == 0){
@@ -229,6 +256,10 @@ public class TextEditor {
         return false;
     }
 
+    /**
+     * Redoes the move that was undone
+     * @return True if there is a move to redo and false otherwise
+     */
     public boolean redo() {
         /* TODO */
         if (redo.size() == 0){

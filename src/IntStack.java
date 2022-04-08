@@ -52,7 +52,7 @@ public class IntStack {
     /**
      * Constructor without shrinkF
      * @param capacity How much the array can hold at max
-     * @param loadF Proporton which the size of the stack needs to be increased.
+     * @param loadF Proportion which the size of the stack needs to be increased.
      */
     public IntStack(int capacity, double loadF) {
         /* Constructor method when only the capacity and loadF are specified */
@@ -101,11 +101,7 @@ public class IntStack {
      */
     public boolean isEmpty() {
         /* Returns true if stack is empty, returns false otherwise */
-        if (this.nElems == -1){
-            return true;
-        } else {
-            return false;
-        }
+        return this.nElems == -1;
     }
 
     /**
@@ -145,7 +141,7 @@ public class IntStack {
             throw new EmptyStackException(); /* Throws this exception if stack is empty */
         }
     return this.data[this.nElems];
-`    }
+    }
 
     /**
      * Method
@@ -179,7 +175,7 @@ public class IntStack {
      * @return Element that was popped.
      */
     public int pop() {
-        /* Removes the element at the top of the stack and returns the element. Also when the
+        /* Removes the element at the top of the stack and returns the element. Also, when the
         shrink Factor is reached floor halves the capacity. */
         int temp; /* Temp int to return after removing */
         double num = this.size();
@@ -216,7 +212,7 @@ public class IntStack {
      * @param elements array of elements to be added to the stack
      */
     public void multiPush(int[] elements) {
-        /* Iterates through the elements array and oushes each individual element in order. */
+        /* Iterates through the elements array and pushes each individual element in order. */
         if (elements == null){
             /* Throws illegal argument exception if elements is null/not an array */
             throw new IllegalArgumentException();
@@ -242,7 +238,7 @@ public class IntStack {
         }
         /* Pops and adds to an array the number of specified times. */
         int[] arr = new int[amount];
-        for (int i = 0;i < amount;i++){
+        for (int i = 0; i < amount; i++){
             arr[i] = this.pop();
         }
         return arr;

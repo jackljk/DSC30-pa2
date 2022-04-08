@@ -24,9 +24,9 @@ public class WeatherMonitor {
             this.monitor.push(temp);
             return 0;
         } else {
-            int pre_day = this.monitor.peek();
+            int preDay = this.monitor.peek();
             this.monitor.push(temp);
-            if (pre_day < temp){
+            if (preDay < temp){
                 this.counter += 1;
                 return this.counter;
             } else {
@@ -36,5 +36,4 @@ public class WeatherMonitor {
             }
         }
     }
-    
 }
