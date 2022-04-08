@@ -3,7 +3,6 @@
     PID:  A16919063
  */
 
-import java.util.Arrays;
 import java.util.EmptyStackException;
 
 /**
@@ -18,7 +17,7 @@ public class IntStack {
     private int nElems; /* Keep track of size of stack */
     private double loadFactor; /* Values to indicate whether the array needs to be resized */
     private double shrinkFactor; /* Values to indicate whether the array needs to be resized */
-    private int init_capacity; /* Stores initial capacity. */
+    private int initCapacity; /* Stores initial capacity. */
 
     /**
      * Constructor
@@ -34,7 +33,7 @@ public class IntStack {
             throw new IllegalArgumentException();
         } else {
             this.data = new int[capacity];
-            this.init_capacity = capacity;
+            this.initCapacity = capacity;
         }
         if (loadF > 1 || loadF < 0.67){
             /* When loadF is not in valid range throws illegal argument exception */
@@ -63,7 +62,7 @@ public class IntStack {
             throw new IllegalArgumentException();
         } else {
             this.data = new int[capacity];
-            this.init_capacity = capacity;
+            this.initCapacity = capacity;
         }
         if (loadF > 1 || loadF < 0.67) {
             /* When loadF is not in valid range throws illegal argument exception */
@@ -85,7 +84,7 @@ public class IntStack {
             throw new IllegalArgumentException();
         } else {
             this.data = new int[capacity];
-            this.init_capacity = capacity;
+            this.initCapacity = capacity;
         }
     }
 
@@ -114,7 +113,7 @@ public class IntStack {
      */
     public void clear() {
         /* Clears the Stack and resets it to it's initial capacity. */
-        this.data = new int[this.init_capacity];
+        this.data = new int[this.initCapacity];
         this.nElems = -1;
     }
 
@@ -146,7 +145,7 @@ public class IntStack {
             throw new EmptyStackException(); /* Throws this exception if stack is empty */
         }
     return this.data[this.nElems];
-    }
+`    }
 
     /**
      * Method
@@ -156,7 +155,7 @@ public class IntStack {
         /* Adds a new element to the stack, doubles its size if the load factor is reached */
         double num = this.size();
         double denom = this.capacity();
-        double prop = num/denom;
+        double prop = num / denom;
         if (prop >= this.loadFactor){
             int[] temp_arr = new int[this.capacity() * 2];
             if (this.size() >= 0) {
@@ -185,7 +184,7 @@ public class IntStack {
         int temp; /* Temp int to return after removing */
         double num = this.size();
         double denom = this.capacity();
-        double prop = num/denom;
+        double prop = num / denom;
         if (isEmpty()){
             /* Throws an exception if the stack is empty */
             throw new EmptyStackException();
@@ -197,14 +196,16 @@ public class IntStack {
         }
         if (prop <= this.shrinkFactor){
             int size;
-            int base = this.capacity()/2;
+            int base = this.capacity() / 2;
             if (base <= 5){
                 size = 5;
             } else {
                 size = base;
             }
             int[] temp_arr = new int[size];
-            if (nElems >= 0) System.arraycopy(this.data, 0, temp_arr, 0, nElems);
+            if (nElems >= 0){
+                System.arraycopy(this.data, 0, temp_arr, 0, nElems);
+            }
             this.data = temp_arr;
         }
         return temp;
@@ -241,7 +242,7 @@ public class IntStack {
         }
         /* Pops and adds to an array the number of specified times. */
         int[] arr = new int[amount];
-        for (int i = 0;i<amount;i++){
+        for (int i = 0;i < amount;i++){
             arr[i] = this.pop();
         }
         return arr;

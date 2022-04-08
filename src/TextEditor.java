@@ -3,6 +3,7 @@
     PID:  A16919063
  */
 
+import java.util.Arrays;
 import java.util.Locale;
 
 import static java.lang.Character.isUpperCase;
@@ -26,7 +27,7 @@ public class TextEditor {
      */
     public TextEditor() {
         /* Initializes the TextEditor */
-        this.text = "Test String";
+        this.text = "";
         this.undo = new IntStack(10);
         this.deletedText = new StringStack(20);
         this.redo = new IntStack(10);
@@ -122,6 +123,7 @@ public class TextEditor {
             }
             this.text = final_text.toString();
             undo.multiPush(new int[]{i, i + input.length(), 1});
+            insertedText.push(input);
         }
     }
 
@@ -208,11 +210,6 @@ public class TextEditor {
             int cas = undo.pop();
             int end = undo.pop();
             int start = undo.pop();
-            for (int i = this.length();i > 0;i--){
-                if (i >= start && i < end){
-                    insertedText.push(Character.toString(this.text.charAt(i)));
-                }
-            }
             this.delete_without_undo(start, end);
             redo.multiPush(new int[]{start, end, cas});
             return true;
@@ -234,6 +231,27 @@ public class TextEditor {
 
     public boolean redo() {
         /* TODO */
+        if (redo.size() == 0){
+            return false;
+        } else if (redo.peek() == 0){
+            int cas = redo.pop();
+            int end = redo.pop();
+            int start = redo.pop();
+            this.caseConvert(start, end);
+            return true;
+        } else if (redo.peek() == 1){
+            int cas = redo.pop();
+            int end = redo.pop();
+            int start = redo.pop();
+            this.insert(start, insertedText.pop());
+            return true;
+        } else if (redo.peek() == 2){
+            int cas = redo.pop();
+            int end = redo.pop();
+            int start = redo.pop();
+            this.delete(start, end);
+            return true;
+        }
         return false;
     }
 }
