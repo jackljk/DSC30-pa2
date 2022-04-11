@@ -230,9 +230,11 @@ public class TextEditor {
         int CONVERT_CASE = 0;
         int INSERT_CASE = 1;
         int DELETE_CASE = 2;
-        if (undo.size() == CONVERT_CASE){
+        if (undo.size() == 0){
+            /* Returns false of there is nothing to undo */
             return false;
-        } else if (undo.peek() == 0){
+        } else if (undo.peek() == CONVERT_CASE){
+            /* Handles undo for caseConvert */
             int cas = undo.pop();
             int end = undo.pop();
             int start = undo.pop();
@@ -240,6 +242,7 @@ public class TextEditor {
             redo.multiPush(new int[]{start, end, cas});
             return true;
         } else if (undo.peek() == INSERT_CASE){
+            /* Handles undo for the Inserts */
             int cas = undo.pop();
             int end = undo.pop();
             int start = undo.pop();
@@ -247,6 +250,7 @@ public class TextEditor {
             redo.multiPush(new int[]{start, end, cas});
             return true;
         } else if (undo.peek() == DELETE_CASE){
+            /* Handles undo for delete case */
             int cas = undo.pop();
             int end = undo.pop();
             int start = undo.pop();
@@ -273,20 +277,24 @@ public class TextEditor {
         int INSERT_CASE = 1;
         int DELETE_CASE = 2;
         if (redo.size() == CONVERT_CASE){
+            /* Returns false of there is nothing to redo */
             return false;
         } else if (redo.peek() == 0){
+            /* Handles redo for caseConvert */
             int cas = redo.pop();
             int end = redo.pop();
             int start = redo.pop();
             this.caseConvert(start, end);
             return true;
         } else if (redo.peek() == INSERT_CASE){
+            /* Handles redo for insert */
             int cas = redo.pop();
             int end = redo.pop();
             int start = redo.pop();
             this.insert(start, insertedText.pop());
             return true;
         } else if (redo.peek() == DELETE_CASE){
+            /* Handles redo for delete */
             int cas = redo.pop();
             int end = redo.pop();
             int start = redo.pop();
