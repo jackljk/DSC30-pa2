@@ -27,21 +27,24 @@ public class IntStack {
      */
     public IntStack(int capacity, double loadF, double shrinkF) {
         /* Constructor when the capacity, loadF and shrinkF are all specified */
+        double MIN_LOAD_FACTOR = 0.67;
+        double MAX_SHRINK_FACTOR = 0.33;
+        int MIN_CAPACITY = 5;
         this.nElems = -1; /* Start nelems of a stack as arrays start from 0 */
-        if (capacity < 5){
+        if (capacity < MIN_CAPACITY){
             /* When capacity is less than 5, it is an illegal argument*/
             throw new IllegalArgumentException();
         } else {
             this.data = new int[capacity];
             this.initCapacity = capacity;
         }
-        if (loadF > 1 || loadF < 0.67){
+        if (loadF > 1 || loadF < MIN_LOAD_FACTOR){
             /* When loadF is not in valid range throws illegal argument exception */
             throw new IllegalArgumentException();
         } else {
             this.loadFactor = loadF;
         }
-        if (shrinkF <= 0 || shrinkF > 0.33) {
+        if (shrinkF <= 0 || shrinkF > MAX_SHRINK_FACTOR) {
             /* When shrinkF is not in valid range throws illegal argument exception */
             throw new IllegalArgumentException();
         } else {
@@ -57,14 +60,16 @@ public class IntStack {
     public IntStack(int capacity, double loadF) {
         /* Constructor method when only the capacity and loadF are specified */
         this.nElems = -1; /* Start nelems of a stack as arrays start from 0 */
-        if (capacity < 5) {
+        int MIN_CAPACITY = 5;
+        double MIN_LOAD_FACTOR = 0.67;
+        if (capacity < MIN_CAPACITY) {
             /* When capacity is less than 5, it is an illegal argument*/
             throw new IllegalArgumentException();
         } else {
             this.data = new int[capacity];
             this.initCapacity = capacity;
         }
-        if (loadF > 1 || loadF < 0.67) {
+        if (loadF > 1 || loadF < MIN_LOAD_FACTOR) {
             /* When loadF is not in valid range throws illegal argument exception */
             throw new IllegalArgumentException();
         } else {
@@ -79,7 +84,8 @@ public class IntStack {
     public IntStack(int capacity) {
         /* Constructor method when only capacity is given. */
         this.nElems = -1; /* Start nelems of a stack as arrays start from 0 */
-        if (capacity < 5) {
+        int MIN_CAPACITY = 5;
+        if (capacity < MIN_CAPACITY) {
             /* When capacity is less than 5, it is an illegal argument*/
             throw new IllegalArgumentException();
         } else {
@@ -149,11 +155,12 @@ public class IntStack {
      */
     public void push(int element) {
         /* Adds a new element to the stack, doubles its size if the load factor is reached */
+        int INCREASE_FACTOR = 2;
         double num = this.size();
         double denom = this.capacity();
         double prop = num / denom;
         if (prop >= this.loadFactor){
-            int[] temp_arr = new int[this.capacity() * 2];
+            int[] temp_arr = new int[this.capacity() * INCREASE_FACTOR];
             if (this.size() >= 0) {
                 /* Makes a copy of the old array onto a new and larger one */
                 System.arraycopy(this.data, 0, temp_arr, 0, this.size());
@@ -178,6 +185,8 @@ public class IntStack {
         /* Removes the element at the top of the stack and returns the element. Also, when the
         shrink Factor is reached floor halves the capacity. */
         int temp; /* Temp int to return after removing */
+        int DECREASE_FACTOR = 2;
+        int BASE_CAPACITY = 5;
         double num = this.size();
         double denom = this.capacity();
         double prop = num / denom;
@@ -192,9 +201,9 @@ public class IntStack {
         }
         if (prop <= this.shrinkFactor){
             int size;
-            int base = this.capacity() / 2;
-            if (base <= 5){
-                size = 5;
+            int base = this.capacity() / DECREASE_FACTOR;
+            if (base <= BASE_CAPACITY){
+                size = BASE_CAPACITY;
             } else {
                 size = base;
             }

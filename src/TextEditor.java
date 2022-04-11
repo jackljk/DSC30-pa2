@@ -27,11 +27,12 @@ public class TextEditor {
      */
     public TextEditor() {
         /* Initializes the TextEditor */
+        int BASE_CAPACITIES = 10;
         this.text = "";
-        this.undo = new IntStack(10);
-        this.deletedText = new StringStack(20);
-        this.redo = new IntStack(10);
-        this.insertedText = new StringStack(20);
+        this.undo = new IntStack(BASE_CAPACITIES);
+        this.deletedText = new StringStack(BASE_CAPACITIES);
+        this.redo = new IntStack(BASE_CAPACITIES);
+        this.insertedText = new StringStack(BASE_CAPACITIES);
     }
 
     /**
@@ -181,6 +182,7 @@ public class TextEditor {
     public void delete(int i, int j) {
         /* Deletes a part of the string based of the 2 integers provided */
         StringBuilder final_text = new StringBuilder();
+        int CASE = 2;
         if (i > this.length() || j > this.length() || j <= i){
             /* Throws an exception if i or j is out of bounds. Or i is larger than j */
             throw new IllegalArgumentException();
@@ -196,7 +198,7 @@ public class TextEditor {
             }
         }
         this.text = final_text.toString();
-        undo.multiPush(new int[]{i, j, 2});
+        undo.multiPush(new int[]{i, j, CASE});
     }
 
     public void delete_without_undo(int i, int j){
@@ -223,8 +225,12 @@ public class TextEditor {
      * @return true if there is a move  to undo false otherwise
      */
     public boolean undo() {
-        /* TODO */
-        if (undo.size() == 0){
+        /* Undoes the last action done by checking the undo stack to get the case, and the
+        necessary values required to perform the undo action */
+        int CONVERT_CASE = 0;
+        int INSERT_CASE = 1;
+        int DELETE_CASE = 2;
+        if (undo.size() == CONVERT_CASE){
             return false;
         } else if (undo.peek() == 0){
             int cas = undo.pop();
@@ -233,14 +239,14 @@ public class TextEditor {
             this.caseConvert_without_undo(start, end);
             redo.multiPush(new int[]{start, end, cas});
             return true;
-        } else if (undo.peek() == 1){
+        } else if (undo.peek() == INSERT_CASE){
             int cas = undo.pop();
             int end = undo.pop();
             int start = undo.pop();
             this.delete_without_undo(start, end);
             redo.multiPush(new int[]{start, end, cas});
             return true;
-        } else if (undo.peek() == 2){
+        } else if (undo.peek() == DELETE_CASE){
             int cas = undo.pop();
             int end = undo.pop();
             int start = undo.pop();
@@ -261,8 +267,12 @@ public class TextEditor {
      * @return True if there is a move to redo and false otherwise
      */
     public boolean redo() {
-        /* TODO */
-        if (redo.size() == 0){
+        /* Redoes the last action done by checking the redo stack in order to know what the last
+        action to redo was and to acquire the necessary values. */
+        int CONVERT_CASE = 0;
+        int INSERT_CASE = 1;
+        int DELETE_CASE = 2;
+        if (redo.size() == CONVERT_CASE){
             return false;
         } else if (redo.peek() == 0){
             int cas = redo.pop();
@@ -270,13 +280,13 @@ public class TextEditor {
             int start = redo.pop();
             this.caseConvert(start, end);
             return true;
-        } else if (redo.peek() == 1){
+        } else if (redo.peek() == INSERT_CASE){
             int cas = redo.pop();
             int end = redo.pop();
             int start = redo.pop();
             this.insert(start, insertedText.pop());
             return true;
-        } else if (redo.peek() == 2){
+        } else if (redo.peek() == DELETE_CASE){
             int cas = redo.pop();
             int end = redo.pop();
             int start = redo.pop();

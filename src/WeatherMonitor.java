@@ -14,7 +14,8 @@ public class WeatherMonitor {
     private int counter;
     public WeatherMonitor() {
         /* Initializing Weather Monitor as a stack */
-        this.monitor = new IntStack(9);
+        int BASE_CAPACITY = 10;
+        this.monitor = new IntStack(BASE_CAPACITY);
     }
     
     public int numDays(int temp) {
